@@ -12,10 +12,10 @@ export default function Search({ placeholder }: { placeholder: string }) {
   // usePathname is a hook that returns the current URL pathname as a string.
   // useRouter is a hook that returns the router object, which provides methods for navigating and manipulating the URL.
 
-  console.log("searchParams.get", searchParams.get("query"));
+  // console.log("searchParams.get", searchParams.get("query"));
 
   const handleSearch = useDebouncedCallback((term: string) => {
-    console.log(`Searching... ${term}`);
+    // console.log(`Searching... ${term}`);
     // URLSearchParams is a Web API that providesutility methods for manipulating the URL query parameters
     const params = new URLSearchParams(searchParams); // copied the current search params for modification
     params.set("page", "1"); // reset the page to 1 when searching

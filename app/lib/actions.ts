@@ -28,10 +28,14 @@ export async function createInvoice(formData: FormData) {
   const amountInCent = amount * 100; // convert the amount to cent to avoid js floating-points error
   const date = new Date().toISOString().split("T")[0]; // get the current date in YYYY-MM-DD format
 
-  await sql`
+  try {
+    await sql`
     INSERT INTO invoices (customer_Id, amount, status, date)
     VALUES (${customerId}, ${amountInCent}, ${status}, ${date})
   `;
+  } catch (error) {
+    console.error("Error creating invoice:", error);
+  }
 
   revalidatePath("/dashboard/invoices");
   redirect("/dashboard/invoices");
@@ -46,17 +50,22 @@ export async function updateInvoice(id: string, formData: FormData) {
 
   const amountInCent = amount * 100;
 
-  await sql`
+  try {
+    await sql`
     UPDATE invoices
     SET customer_id = ${customerId}, amount = ${amountInCent}, status = ${status}
     WHERE id = ${id}
   `;
+  } catch (error) {
+    console.error("Error updating invoice:", error);
+  }
 
   revalidatePath("/dashboard/invoices");
   redirect("/dashboard/invoices");
 }
 
 export async function deleteInvoice(id: string) {
+  // throw new Error("Unable to delete invoice");
   await sql`
     DELETE FROM invoices WHERE id = ${id}
   `;
